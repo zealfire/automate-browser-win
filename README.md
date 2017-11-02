@@ -11,4 +11,4 @@ Description about arguments accepted by script
 4) -b this means browser in which URL needs to opened
 
 You have to tell script what it should do by passing these paramters: start, close, clean
-Sample command: ruby browser.rb start -b chrome -u link_to_url, this will open the url in chrome browser
+Sample command: **ruby browser.rb start -b chrome -u link_to_url**, this will open the url in chrome browser
