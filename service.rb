@@ -1,0 +1,1 @@
+`cd /Users/zealfire/Documents/greedy/automate-browser/ && rackup -D -p 8003`
