@@ -31,21 +31,20 @@ class Browser
 	def initialize
 		@url = $options[:url]
 		@browser = $options[:browser]
-		if $options[:hostname] and $options[:port]
-			`sudo networksetup -setwebproxy 'Wi-Fi' #{$options[:hostname]} #{$options[:port]}`
-			`sudo networksetup -setsecurewebproxy 'Wi-Fi' #{$options[:hostname]} #{$options[:port]}`
-			# system("export http_proxy='http://#{$options[:hostname]}:#{$options[:port]}'")
-			# system("export https_proxy='https://#{$options[:hostname]}:#{$options[:port]}'")
-		else
-			`sudo networksetup -setsecurewebproxystate 'Wi-Fi' off`
-			`sudo networksetup -setwebproxystate 'Wi-Fi' off`
-		end
+		# if $options[:hostname] and $options[:port]
+		# 	`sudo networksetup -setwebproxy 'Wi-Fi' #{$options[:hostname]} #{$options[:port]}`
+		# 	`sudo networksetup -setsecurewebproxy 'Wi-Fi' #{$options[:hostname]} #{$options[:port]}`
+		# 	# system("export http_proxy='http://#{$options[:hostname]}:#{$options[:port]}'")
+		# 	# system("export https_proxy='https://#{$options[:hostname]}:#{$options[:port]}'")
+		# else
+		# 	`sudo networksetup -setsecurewebproxystate 'Wi-Fi' off`
+		# 	`sudo networksetup -setwebproxystate 'Wi-Fi' off`
+		# end
 	end
 
 	def start
-		case browser
+		case @browser
 		when 'chrome'
-		  byebug
 		  `open -a '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome' #{@url}`
 		when 'firefox'
 		  `open -a 'Firefox' #{@url}`
@@ -56,7 +55,7 @@ class Browser
 
 	def close
 		kill_all_arg = ""
-		case browser
+		case @browser
 		when 'chrome'
 		  kill_all_arg = 'Google Chrome'
 		when 'firefox'
@@ -72,7 +71,7 @@ class Browser
 		username = username.split("\n")[0]
 		close # close so that profiles can be deleted
 		if username
-			case browser
+			case @browser
 			when 'chrome'
 			  `rm -rf "#{Dir.home}/Library/Caches/Google/Chrome/Default/Cache/"`
 			  `rm -rf "#{Dir.home}/Library/Application Support/Google/Chrome/"`
