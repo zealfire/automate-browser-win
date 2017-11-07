@@ -31,15 +31,15 @@ class Browser
 	def initialize
 		@url = $options[:url]
 		@browser = $options[:browser]
-		# if $options[:hostname] and $options[:port]
-		# 	`sudo networksetup -setwebproxy 'Wi-Fi' #{$options[:hostname]} #{$options[:port]}`
-		# 	`sudo networksetup -setsecurewebproxy 'Wi-Fi' #{$options[:hostname]} #{$options[:port]}`
-		# 	# system("export http_proxy='http://#{$options[:hostname]}:#{$options[:port]}'")
-		# 	# system("export https_proxy='https://#{$options[:hostname]}:#{$options[:port]}'")
-		# else
-		# 	`sudo networksetup -setsecurewebproxystate 'Wi-Fi' off`
-		# 	`sudo networksetup -setwebproxystate 'Wi-Fi' off`
-		# end
+		if $options[:hostname] and $options[:port]
+			`sudo networksetup -setwebproxy 'Wi-Fi' #{$options[:hostname]} #{$options[:port]}`
+			`sudo networksetup -setsecurewebproxy 'Wi-Fi' #{$options[:hostname]} #{$options[:port]}`
+			# system("export http_proxy='http://#{$options[:hostname]}:#{$options[:port]}'")
+			# system("export https_proxy='https://#{$options[:hostname]}:#{$options[:port]}'")
+		else
+			`sudo networksetup -setsecurewebproxystate 'Wi-Fi' off`
+			`sudo networksetup -setwebproxystate 'Wi-Fi' off`
+		end
 	end
 
 	def start
