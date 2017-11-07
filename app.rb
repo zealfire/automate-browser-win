@@ -8,7 +8,6 @@ end
 
 # end point for starting browser
 get '/start/?' do
-  puts params
   check_for_proxy(params)
   browser = params[:browser]
   url = params[:url]
