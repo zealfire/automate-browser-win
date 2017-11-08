@@ -1,8 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-  <!-- Replace USERNAME and path to server-test.sh script as per your system -->
+<!-- Replace USERNAME and path to server-test.sh script as per your system -->
 <dict>
+  <key>KeepAlive</key>
+  <true/>
   <key>Label</key>
   <string>com.user.server</string>
 
@@ -10,9 +12,6 @@
   <array>
     <string>/Users/USERNAME/workplace/server-test.sh</string>
   </array>
-
-  <key>Nice</key>
-  <integer>1</integer>
 
   <key>RunAtLoad</key>
   <true/>
@@ -22,5 +21,8 @@
 
   <key>StandardOutPath</key>
   <string>/tmp/AlTest1.out</string>
+
+  <key>WorkingDirectory</key>
+    <string>/Users/zealfire/Documents/greedy/automate-browser</string>
 </dict>
 </plist>
