@@ -23,6 +23,6 @@ end
 # end point for cleaning browser
 get '/clean/?' do
   browser = params[:browser]
-  close browser # close so that profiles can be deleted
+  #close browser # close so that profiles can be deleted
   cleanup browser # utiliy function to clean browser
 end

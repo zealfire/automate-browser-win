@@ -3,34 +3,25 @@ def check_for_proxy(params)
 	hostname = params[:hostname]
 	port = params[:port]
   if hostname && port
-    if `networksetup -getwebproxy 'Wi-Fi' | grep '^Enabled:' | cut -d' ' -f2 | tr -d $'\n'` == "No"
-      `networksetup -setwebproxy 'Wi-Fi' #{hostname} #{port}`
-    end
-    if `networksetup -getsecurewebproxy 'Wi-Fi' | grep '^Enabled:' | cut -d' ' -f2 | tr -d $'\n'` == "No"
-      `networksetup -setsecurewebproxy 'Wi-Fi' #{hostname} #{port}`
-    end
+    system('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 1 /f')
+    system('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyServer /t REG_SZ /d #{hostname}:#{port} /f')
   end
 end
 
 # helps to disable proxy
 def disable_proxy
-  if `networksetup -getsecurewebproxy 'Wi-Fi' | grep '^Enabled:' | cut -d' ' -f2 | tr -d $'\n'` == "Yes"
-    `networksetup -setsecurewebproxystate 'Wi-Fi' off`
-  end
-  if `networksetup -getwebproxy 'Wi-Fi' | grep '^Enabled:' | cut -d' ' -f2 | tr -d $'\n'` == "Yes"
-  ` networksetup -setwebproxystate 'Wi-Fi' off`
-  end
+  system('reg add "HKCU\Software\Microsoft\Windows\CurrentVersion\Internet Settings" /v ProxyEnable /t REG_DWORD /d 0 /f')
 end
 
 # helps to open particular browser
 def open(browser, url="")
   case browser
   when 'chrome'
-    `open -a '/Applications/Google\ Chrome.app/Contents/MacOS/Google\ Chrome' #{url}`
+    `start chrome #{url}`
   when 'firefox'
-    `open -a 'Firefox' #{url}`
-  when 'safari'
-    `open -a 'Safari' #{url}`
+    `start firefox #{url}`
+  when 'ie'
+    `start iexplore #{url}`
   end
 end
 
@@ -38,30 +29,25 @@ end
 def cleanup(browser)
   case browser
   when 'chrome'
-    `rm -rf "#{Dir.home}/Library/Caches/Google/Chrome/Default/Cache/"`
-    `rm -rf "#{Dir.home}/Library/Application Support/Google/Chrome/"`
+    `clean_chrome.bat`
   when 'firefox'
-    `rm -rf "#{Dir.home}/Library/Application Support/Firefox"`
-    `rm -Rf "#{Dir.home}/Library/Caches/Firefox"`
-    puts "Deletion done"
-  when 'safari'
-    `rm -Rf "#{Dir.home}/Library/Caches/Metadata/Safari"`
-    `rm -Rf "#{Dir.home}/Library/Caches/com.apple.Safari"`
-    `rm -Rf "#{Dir.home}/Library/Cookies/Cookies.binarycookies"`
+    `clean_firefox.bat`
+  when 'ie'
+   `clean_ie.bat`
   end
 end
 
 # helps to close a specific browser
 def close(browser)
   disable_proxy # disabling proxy is part of closing process
-  kill_all_arg = ""
+  kill_arg = ""
   case browser
   when 'chrome'
-    kill_all_arg = 'Google Chrome'
+    kill_arg = 'chrome.exe'
   when 'firefox'
-    kill_all_arg = 'firefox'
-  when 'safari'
-    kill_all_arg = 'Safari'
+    kill_arg = 'firefox.exe'
+  when 'ie'
+    kill_arg = 'iexplore.exe'
   end
-  `killall -SIGTERM #{kill_all_arg}`
+  `Taskkill /IM #{kill_arg} /F`
 end
