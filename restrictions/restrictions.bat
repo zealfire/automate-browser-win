@@ -1,6 +1,6 @@
 # disabling access to main user folder access
 ICACLS C:\Users\Administrator /setowner "Administrator" /T /C
-CACLS C:\Users\Administrator /E /R test
+ICACLS C:\Users\Administrator /remove  test /T
 
 # bottom menu bar is hidden
 taskkill /f /im explorer.exe
