@@ -29,11 +29,11 @@ end
 def cleanup(browser)
   case browser
   when 'chrome'
-    `clean_chrome.bat`
+    `cleanup_browser\clean_chrome.bat`
   when 'firefox'
-    `clean_firefox.bat`
+    `cleanup_browser\clean_firefox.bat`
   when 'ie'
-   `clean_ie.bat`
+   `cleanup_browser\clean_ie.bat`
   end
 end
 
